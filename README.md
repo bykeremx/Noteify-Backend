@@ -39,15 +39,19 @@ Bu proje, Node.js ve Express.js kullanılarak oluşturulmuş bir **RESTful API**
     PORT=8080
 
     # DB bağlantısı
-    DB_URI=your_mongo_db_uri
+    DB_URI=mongodb://localhost:27017/api-test
 
     # JWT secret key
-    JWT_SECRET=your_jwt_secret_key
+    JWT_SECRET=your_secret_key
 
-    # JWT oturum süresi (örn: 1h -> bir saat)
+    # JWT oturum süresi
     JWT_EXPIRES_IN=1h
 
+    # Geliştirme ortamı
     NODE_ENV=development
+
+    # Cookie geçerlilik süresi (saat olarak)
+    JWT_COOKIE_TIME=5
     ```
 
 4. Sunucuyu çalıştırın:
@@ -59,10 +63,8 @@ Bu proje, Node.js ve Express.js kullanılarak oluşturulmuş bir **RESTful API**
 
 ## :package: **`package.json` Açıklamaları**
 
-`package.json` dosyanız, projenizin bağımlılıklarını ve bazı komutları yönetmek için kullanılır. Aşağıda önemli yerler açıklanmıştır:
-
 ### :gear: **Scripts**
-- **`dev`**: Geliştirme ortamında uygulamanızı çalıştırmak için `npm run dev` komutunu kullanabilirsiniz. Bu komut, **`nodemon`** kullanarak uygulamanızı başlatır ve dosya değişikliklerini izler. Kodunuzda herhangi bir değişiklik yapıldığında sunucu otomatik olarak yeniden başlar.
+- **`dev`**: Geliştirme ortamında uygulamanızı çalıştırmak için `npm run dev` komutunu kullanabilirsiniz. Bu komut, **`nodemon`** kullanarak uygulamanızı başlatır ve dosya değişikliklerini izler.
     ```json
     "scripts": {
       "dev": "nodemon app.js"
@@ -73,13 +75,13 @@ Bu proje, Node.js ve Express.js kullanılarak oluşturulmuş bir **RESTful API**
 
 ### :package: **Bağımlılıklar**
 
-- **`bcrypt`**: Şifreleme işlemleri için kullanılır. Kullanıcı şifrelerini güvenli bir şekilde hashlemek için gereklidir.
-- **`colors`**: Konsolda renkli metin yazdırmak için kullanılan kütüphanedir. Uygulamanızda konsola renkli yazılar yazdırmak için bu kütüphaneyi kullanabilirsiniz.
-- **`dotenv`**: Çevresel değişkenlerinizi `.env` dosyasından almak için gereklidir. Bu, hassas bilgileri (JWT secret, DB bağlantı bilgileri gibi) korumanıza yardımcı olur.
-- **`express`**: Express.js framework'ü, API'nizi oluşturmak için gerekli olan ana kütüphanedir.
-- **`express-async-handler`**: Express'te asenkron hataları düzgün bir şekilde yönetmek için kullanılır.
-- **`jsonwebtoken`**: JWT tokenleri oluşturmak ve doğrulamak için kullanılır.
-- **`mongoose`**: MongoDB ile bağlantı kurmak için gerekli olan kütüphanedir.
+- **`bcrypt`**: Şifreleme işlemleri için kullanılır.
+- **`colors`**: Konsolda renkli metin yazdırmak için kullanılır.
+- **`dotenv`**: Çevresel değişkenlerinizi `.env` dosyasından almak için gereklidir.
+- **`express`**: Express.js framework'ü.
+- **`express-async-handler`**: Asenkron hataları düzgün bir şekilde yönetmek için kullanılır.
+- **`jsonwebtoken`**: JWT token'ları oluşturmak ve doğrulamak için kullanılır.
+- **`mongoose`**: MongoDB ile bağlantı kurmak için gereklidir.
 
 ---
 
@@ -90,25 +92,26 @@ Bu proje, Node.js ve Express.js kullanılarak oluşturulmuş bir **RESTful API**
 
 ## :scroll: **API Endpointleri**
 
-| **HTTP Yöntemi** | **URL**                    | **Açıklama**                   | **Kimlik Doğrulama** |
-|------------------|----------------------------|--------------------------------|----------------------|
-| **POST**         | /api/auth/register         | Kullanıcı kaydı oluşturur      | Hayır                |
-| **POST**         | /api/auth/login            | Kullanıcı giriş yapar         | Hayır                |
-| **GET**          | /api/user/me               | Notları listeler               | Evet                 |
-| **POST**         | /api/user/addnote          | Yeni not ekler                 | Evet                 |
-| **PUT**          | /api/user/update/:id       | Notu günceller                 | Evet                 |
-| **DELETE**       | /api/user/delete/:id       | Notu siler                     | Evet                 |
+| **HTTP Yöntemi** | **URL**                    | **Açıklama**                   | **Kimlik Doğrulama** | **Simge** |
+|------------------|----------------------------|--------------------------------|----------------------|-----------|
+| :lock: **POST**   | /api/auth/register         | Kullanıcı kaydı oluşturur      | Hayır                | :key: |
+| :key: **POST**    | /api/auth/login            | Kullanıcı giriş yapar         | Hayır                | :unlock: |
+| :door: **GET**    | /api/user/logout           | Kullanıcı oturumunu sonlandırır| Evet                 | :door: |
+| :notebook_with_decorative_cover: **GET** | /api/user/me               | Notları listeler               | Evet                 | :memo: |
+| :page_facing_up: **POST**  | /api/user/addnote          | Yeni not ekler                 | Evet                 | :page_with_curl: |
+| :pencil2: **PUT**  | /api/user/update/:id       | Notu günceller                 | Evet                 | :writing_hand: |
+| :x: **DELETE**     | /api/user/delete/:id       | Notu siler                     | Evet                 | :wastebasket: |
 
 ---
 
-## :shield: **Kullanıcı Rolleri**
-Şu anda tüm kullanıcılar aynı yetkilere sahiptir.
-
----
-
-## :memo: **Geliştirme**
-- Daha fazla özellik eklenebilir.
-- Testler yazılarak güvenlik ve stabilite artırılabilir.
+### :memo: **Açıklamalar:**
+- **:lock: `POST /api/auth/register`**: Kullanıcı kaydını oluşturur.
+- **:key: `POST /api/auth/login`**: Kullanıcı giriş yapar ve JWT token alır.
+- **:door: `GET /api/user/logout`**: Kullanıcı oturumunu sonlandırarak JWT token'ı geçersiz kılar.
+- **:notebook_with_decorative_cover: `GET /api/user/me`**: Kullanıcıya ait notları listeleyen endpoint.
+- **:page_facing_up: `POST /api/user/addnote`**: Kullanıcı, yeni bir not ekler.
+- **:pencil2: `PUT /api/user/update/:id`**: Var olan bir notu günceller.
+- **:x: `DELETE /api/user/delete/:id`**: Kullanıcıya ait notu siler.
 
 ---
 
@@ -116,3 +119,16 @@ Bu proje, Node.js ve Express.js kullanılarak oluşturulmuş bir **RESTful API**
 Bu proje **MIT lisansı** altında lisanslanmıştır.
 
 ---
+
+### **Postman Scriptleri:**
+
+- **Login Script**:
+  ```js
+  let tokenCookie = pm.cookies.get('acces_token');
+  // Eğer çerez varsa, global değişkene kaydet
+  if (tokenCookie) {
+      pm.globals.set('_token', tokenCookie);
+      console.log('Çerezden JWT token global değişkene atandı:', tokenCookie);
+  } else {
+      console.log('Çerez bulunamadı.');
+  }
