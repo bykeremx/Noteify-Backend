@@ -132,3 +132,16 @@ Bu proje **MIT lisansı** altında lisanslanmıştır.
   } else {
       console.log('Çerez bulunamadı.');
   }
+ ---
+  **Logout Script
+
+ ```js
+ pm.globals.set('_token', "none");
+
+---
+
+ ## :closed_lock_with_key: **Lisans**
+ Bu proje **MIT lisansı** altında lisanslanmıştır.
+---
+
+  
