@@ -113,12 +113,7 @@ Bu proje, Node.js ve Express.js kullanılarak oluşturulmuş bir **RESTful API**
 - **:pencil2: `PUT /api/user/update/:id`**: Var olan bir notu günceller.
 - **:x: `DELETE /api/user/delete/:id`**: Kullanıcıya ait notu siler.
 
----
 
-## :closed_lock_with_key: **Lisans**
-Bu proje **MIT lisansı** altında lisanslanmıştır.
-
----
 
 ### **Postman Scriptleri:**
 
@@ -133,15 +128,17 @@ Bu proje **MIT lisansı** altında lisanslanmıştır.
       console.log('Çerez bulunamadı.');
   }
  ---
-  **Logout Script
+ - **Logout Script
 
  ```js
  pm.globals.set('_token', "none");
+ ```
 
 ---
 
- ## :closed_lock_with_key: **Lisans**
- Bu proje **MIT lisansı** altında lisanslanmıştır.
+## :closed_lock_with_key: **Lisans**
+Bu proje **MIT lisansı** altında lisanslanmıştır.
+
 ---
 
   
