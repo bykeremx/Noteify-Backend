@@ -1,4 +1,6 @@
-const ErrorInfo = (statusCode,res,err,message,stack=null) => {
+const ErrorInfo = (statusCode, res, err, message, stack = null) => {
+    console.log("Hata adı:", err.name);
+    console.log("Hata mesajı:", err.message);
     return res.status(statusCode).json({
         message: message || " ",
         error: {

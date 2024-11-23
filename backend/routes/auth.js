@@ -3,7 +3,7 @@ import express from 'express';
 
 //auth controller dahil et
 import {
-    Login,Register,Me
+    Login,Register,Me,Logout
 } from '../controllers/authController.js';
 
 //------------------------------------------------------------------------------
@@ -14,5 +14,6 @@ const Route = express.Router();
 Route.post('/login',Login);
 Route.post('/register',Register);
 Route.get("/me",[AuthMiddleware],Me);
+Route.get("/logout",[AuthMiddleware],Logout);
 
 export default Route;

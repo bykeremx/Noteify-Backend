@@ -2,7 +2,7 @@
 import AuthModel from '../models/auth/authModel.js';
 import bcrypt from 'bcrypt';
 import expressAsyncHandler from 'express-async-handler';
-
+import SetCookieJwt from '../utils/Jwt/jwtAuthSetCookie.js';
 //jwt yi çağırr 
 import CreateWebToken from '../utils/Jwt/jwtCreateToken.js'
 
@@ -27,15 +27,13 @@ export const Login = expressAsyncHandler(async (req, res) => {
     }
     const LoginUser = await AuthModel.findOne({email: email});
     //jwt üreticek
-    const Token = CreateWebToken({
+    const TokenDatas = CreateWebToken({
         id: LoginUser._id,
-        username: LoginUser.username
+        username: LoginUser.username,
+        email: LoginUser.email
     });
-    return res.status(200).json({
-        message: 'Giriş Başarılı!',
-        _token :Token,
-
-    });
+    console.log(req.user);
+    SetCookieJwt(res,TokenDatas);
 })
 export const Register = expressAsyncHandler(async (req, res) => {
     //verileri çek 
@@ -102,3 +100,12 @@ export const Me = expressAsyncHandler(async (req,res)=>{
             user : User
         });
 })
+
+export const Logout = expressAsyncHandler(async (req,res)=>{
+   
+    res.clearCookie("acces_token");
+    return res.status(200).json({
+        message : 'Çıkış yapıldı!',
+        status : true
+    });
+});

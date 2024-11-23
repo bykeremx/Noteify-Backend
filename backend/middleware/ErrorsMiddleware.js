@@ -1,6 +1,10 @@
 import ErrorInfo from '../utils/errors/ErrorFunc.js';
 
 const ErrorMiddleware = (err, req, res, next) => {
+    //önemli JsonWebToken e hata dedi ilgni. bir şekilde böyle bir çözüm buldum 
+    if(err.message.split(":")[0] === "JsonWebTokenError"){
+        err.name = "JsonWebTokenError";
+    }
     switch (err.name) {
         case "TokenExpiredError":
             ErrorInfo(500, res, err, "Tokenin süresi bitti! Lütfen yeniden giriş yapın",process.env.NODE_ENV === 'development' ? err.stack : null);
@@ -17,6 +21,7 @@ const ErrorMiddleware = (err, req, res, next) => {
         case "CastError":
             ErrorInfo(400, res, err, "Girilen Parametre Bir ID değil :( !",process.env.NODE_ENV === 'development' ? err.stack : null);
             break;
+        case "MongoError":
         default:
             ErrorInfo(500, res, err, "Bir hata oluştu!", process.env.NODE_ENV === 'development' ? err.stack : null);
             break;

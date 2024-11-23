@@ -1,5 +1,4 @@
 //token oluşturma fonksiyonunu yaz 
-import { response } from "express";
 import jwt from "jsonwebtoken"
 const CreateWebToken = (user) => {
     try {
@@ -9,7 +8,6 @@ const CreateWebToken = (user) => {
         return myToken;
     } catch (error) {
         console.log("token oluşturulamadı ! ");
-        
     }
 }
 
