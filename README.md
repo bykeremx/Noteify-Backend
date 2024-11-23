@@ -127,7 +127,6 @@ Bu proje, Node.js ve Express.js kullanılarak oluşturulmuş bir **RESTful API**
   } else {
       console.log('Çerez bulunamadı.');
   }
- ---
  - **Logout Script
 
  ```js
